@@ -68,6 +68,69 @@ function renderTodos() {
       todo.completed = checkbox.checked;
       saveTodos();
       renderTodos();
+
+      const chatForm = document.querySelector("#chat-form");
+      const chatInput = document.querySelector("#chat-input");
+      const chatMessages = document.querySelector("#chat-messages");
+      const chatStatus = document.querySelector("#chat-status");
+      const chatSubmit = document.querySelector("#chat-submit");
+      const chatHistory = [];
+
+      function addChatMessage(text, role) {
+        const messageItem = document.createElement("li");
+        messageItem.className = `chat-message ${role}-message`;
+        messageItem.textContent = text;
+        chatMessages.append(messageItem);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      }
+
+      chatForm.addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        const text = chatInput.value.trim();
+        if (!text) {
+          chatInput.focus();
+          return;
+        }
+
+        if (chatHistory.length >= 20) chatHistory.splice(0, chatHistory.length - 18);
+        chatHistory.push({ role: "user", text });
+        addChatMessage(text, "user");
+        chatInput.value = "";
+        chatStatus.textContent = "Gemini가 답변을 준비하고 있어요...";
+        chatSubmit.disabled = true;
+        chatInput.disabled = true;
+
+        try {
+          const response = await fetch("/api/chat", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ messages: chatHistory }),
+          });
+          const result = await response.json();
+
+          if (!response.ok) {
+            throw new Error(result.error || "Gemini에게 메시지를 보내지 못했어요.");
+          }
+
+          if (typeof result.reply !== "string" || !result.reply.trim()) {
+            throw new Error("Gemini가 비어 있는 답변을 보냈어요. 다시 시도해 주세요.");
+          }
+
+          chatHistory.push({ role: "model", text: result.reply });
+          addChatMessage(result.reply, "assistant");
+          chatStatus.textContent = "";
+        } catch (error) {
+          console.error("GeminiBot 요청에 실패했습니다.", error);
+          chatHistory.pop();
+          chatStatus.textContent =
+            error instanceof Error ? error.message : "GeminiBot에 연결하지 못했어요.";
+        } finally {
+          chatSubmit.disabled = false;
+          chatInput.disabled = false;
+          chatInput.focus();
+        }
+      });
     });
 
     const text = document.createElement("span");

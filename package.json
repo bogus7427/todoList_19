@@ -1,0 +1,12 @@
+{
+  "name": "todolist-geminibot",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A Korean to-do list with a Gemini-powered chatbot",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18.17"
+  }
+}
