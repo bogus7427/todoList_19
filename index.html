@@ -42,39 +42,6 @@
         </div>
       </section>
 
-      <section class="assistant" aria-labelledby="assistant-title">
-        <div class="section-heading">
-          <h2 id="assistant-title">GeminiBot</h2>
-          <span class="assistant-label">AI 도우미</span>
-        </div>
-        <p class="assistant-note">
-          Gemini와 대화해 보세요. 메시지는 답변을 위해 Gemini API로 전송됩니다.
-        </p>
-        <ol
-          id="chat-messages"
-          class="chat-messages"
-          aria-label="GeminiBot 대화"
-          aria-live="polite"
-          aria-relevant="additions"
-        >
-          <li class="chat-message assistant-message">
-            안녕하세요! 궁금한 점이나 오늘의 할 일에 대해 편하게 물어보세요.
-          </li>
-        </ol>
-        <form id="chat-form" class="chat-form">
-          <label class="sr-only" for="chat-input">GeminiBot에게 메시지 보내기</label>
-          <textarea
-            id="chat-input"
-            rows="2"
-            maxlength="2000"
-            placeholder="메시지를 입력하세요..."
-            required
-          ></textarea>
-          <button id="chat-submit" class="primary-button" type="submit">보내기</button>
-        </form>
-        <p id="chat-status" class="chat-status" role="status" aria-live="polite"></p>
-      </section>
-
       <footer>
         <span class="save-dot" aria-hidden="true"></span>Copyright 2026. kenjo
         All rights reserved.

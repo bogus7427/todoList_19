@@ -102,8 +102,7 @@ button {
   background: #284c39;
 }
 button:focus-visible,
-input:focus-visible,
-textarea:focus-visible {
+input:focus-visible {
   outline: 3px solid #d99a52;
   outline-offset: 3px;
 }
@@ -112,79 +111,6 @@ textarea:focus-visible {
   margin: 10px 0 0;
   color: #92602f;
   font-size: 12px;
-}
-
-.assistant {
-  margin-top: 40px;
-  padding-top: 24px;
-  border-top: 1px solid var(--line);
-}
-.assistant-label {
-  color: var(--muted);
-  font-size: 12px;
-}
-.assistant-note,
-.chat-status {
-  color: var(--muted);
-  font-size: 12px;
-  line-height: 1.6;
-}
-.assistant-note {
-  margin: 8px 0 14px;
-}
-.chat-messages {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  max-height: 320px;
-  overflow-y: auto;
-  margin: 0;
-  padding: 14px;
-  list-style: none;
-  background: #f7f6ef;
-  border: 1px solid var(--line);
-  border-radius: 6px;
-}
-.chat-message {
-  max-width: 88%;
-  padding: 10px 12px;
-  border-radius: 8px;
-  font-size: 14px;
-  line-height: 1.6;
-  overflow-wrap: anywhere;
-  white-space: pre-wrap;
-}
-.assistant-message {
-  align-self: flex-start;
-  background: white;
-  border: 1px solid var(--line);
-}
-.user-message {
-  align-self: flex-end;
-  background: #e7eee5;
-}
-.chat-form {
-  align-items: flex-end;
-  margin-top: 10px;
-}
-#chat-input {
-  flex: 1;
-  min-width: 0;
-  resize: vertical;
-  padding: 11px 12px;
-  color: var(--ink);
-  background: white;
-  border: 1px solid #cdd4c7;
-  border-radius: 5px;
-  font: inherit;
-}
-.chat-status {
-  min-height: 18px;
-  margin: 8px 0 0;
-}
-.chat-form button:disabled {
-  cursor: wait;
-  opacity: 0.65;
 }
 
 /* 4. JavaScript가 만드는 할 일 항목 */
