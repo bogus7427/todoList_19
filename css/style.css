@@ -142,27 +142,6 @@ input:focus-visible {
   font-size: 15px;
   line-height: 1.6;
 }
-.todo-counter {
-  display: flex;
-  flex: 1;
-  align-items: center;
-  gap: 12px;
-  padding: 7px 0;
-  border: 0;
-  background: transparent;
-  color: inherit;
-  text-align: left;
-}
-.todo-counter .todo-text {
-  flex: 1;
-}
-.todo-counter:hover .todo-text {
-  color: var(--green);
-}
-.click-count {
-  color: var(--muted);
-  font-size: 12px;
-}
 .completed .todo-text {
   color: #949a8d;
   text-decoration: line-through;
