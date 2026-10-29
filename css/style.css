@@ -1,0 +1,242 @@
+/* 1. 페이지 전체의 기본 모양 */
+:root {
+  --paper: #fffdf7;
+  --ink: #293e35;
+  --muted: #777e70;
+  --green: #0f2b1c;
+  --line: #e2e4d8;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  padding: 72px 20px;
+  background: #eeeee4;
+  color: var(--ink);
+  font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+}
+
+/* 2. 종이처럼 보이는 목록 영역 */
+.notebook {
+  max-width: 660px;
+  margin: 0 auto;
+  padding: 48px;
+  background: var(--paper);
+  border-top: 6px solid var(--green);
+  border-radius: 3px;
+  box-shadow: 0 12px 40px #293e350d;
+}
+
+.eyebrow {
+  margin: 0 0 24px;
+  color: var(--muted);
+  font-size: 11px;
+  letter-spacing: 2px;
+}
+h1 {
+  margin: 0;
+  font-family: 'AppleMyungjo', 'Batang', serif;
+  font-size: 46px;
+  letter-spacing: -2px;
+}
+h1 span {
+  color: #d68748;
+}
+.subtitle {
+  margin: 16px 0 42px;
+  color: var(--muted);
+  font-size: 14px;
+}
+.section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+h2 {
+  margin: 0;
+  font-size: 15px;
+}
+#todo-count {
+  color: var(--green);
+  font-size: 12px;
+}
+
+/* 3. 입력창과 버튼 */
+form {
+  display: flex;
+  gap: 8px;
+}
+input,
+button {
+  font: inherit;
+}
+input[type='text'] {
+  min-width: 0;
+  padding: 13px 14px;
+  color: var(--ink);
+  background: white;
+  border: 1px solid #cdd4c7;
+  border-radius: 5px;
+}
+#todo-input {
+  flex: 1;
+  width: 100%;
+}
+button {
+  cursor: pointer;
+  border-radius: 5px;
+}
+.primary-button {
+  flex-shrink: 0;
+  padding: 12px 18px;
+  border: 1px solid var(--green);
+  background: var(--green);
+  color: white;
+}
+.primary-button:hover {
+  background: #284c39;
+}
+button:focus-visible,
+input:focus-visible {
+  outline: 3px solid #d99a52;
+  outline-offset: 3px;
+}
+#message {
+  min-height: 18px;
+  margin: 10px 0 0;
+  color: #92602f;
+  font-size: 12px;
+}
+
+/* 4. JavaScript가 만드는 할 일 항목 */
+#todo-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.todo-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 70px;
+  padding: 15px 0;
+  border-bottom: 1px solid var(--line);
+}
+.todo-checkbox {
+  width: 19px;
+  height: 19px;
+  flex-shrink: 0;
+  margin: 0;
+  accent-color: var(--green);
+  cursor: pointer;
+}
+.todo-text {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  font-size: 15px;
+  line-height: 1.6;
+}
+.completed .todo-text {
+  color: #949a8d;
+  text-decoration: line-through;
+}
+.text-button {
+  padding: 7px;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font-size: 12px;
+  flex-shrink: 0;
+}
+.text-button:hover {
+  color: var(--ink);
+  background: #eeeee4;
+}
+.delete-button:hover {
+  color: #a54432;
+}
+.edit-input {
+  flex: 1;
+  width: 100%;
+}
+
+/* 5. 빈 목록 안내와 하단 문구 */
+#empty-state {
+  padding: 38px 0 48px;
+  text-align: center;
+}
+#empty-state[hidden] {
+  display: none;
+}
+.empty-mark {
+  display: inline-grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  margin-bottom: 10px;
+  border: 1px solid #d6ddcf;
+  border-radius: 50%;
+  color: var(--green);
+  font-size: 22px;
+  transform: rotate(-10deg);
+}
+#empty-state p {
+  margin: 8px 0;
+  font-size: 14px;
+}
+#empty-state p:last-child {
+  color: var(--muted);
+  font-size: 12px;
+}
+footer {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 30px;
+  color: var(--muted);
+  font-size: 11px;
+}
+.save-dot {
+  width: 5px;
+  height: 5px;
+  background: var(--green);
+  border-radius: 50%;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 540px) {
+  body {
+    padding: 24px 12px;
+  }
+  .notebook {
+    padding: 32px 22px;
+  }
+  h1 {
+    font-size: 38px;
+  }
+  .todo-item {
+    gap: 7px;
+  }
+  .text-button {
+    padding: 7px 5px;
+  }
+  .primary-button {
+    padding: 12px;
+  }
+}

@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>하루 한 줄 — 할 일 목록</title>
+    <link rel="stylesheet" href="./css/style.css" />
+    <script src="./app.js" defer></script>
+  </head>
+  <body>
+    <main class="notebook">
+      <header>
+        <h1>나의 작은 기록<span>.</span></h1>
+        <p class="subtitle">작은 할 일부터, 하나씩 가볍게.</p>
+      </header>
+
+      <section aria-labelledby="list-title">
+        <div class="section-heading">
+          <h2 id="list-title">오늘의 할 일</h2>
+          <span id="todo-count">0개 남음</span>
+        </div>
+
+        <form id="todo-form">
+          <label class="sr-only" for="todo-input">새로운 할 일</label>
+          <input
+            id="todo-input"
+            type="text"
+            placeholder="어떤 일을 해볼까요?"
+            maxlength="100"
+            required
+            autocomplete="off"
+          />
+          <button class="primary-button" type="submit">추가</button>
+        </form>
+        <p id="message" role="status" aria-live="polite"></p>
+
+        <ul id="todo-list"></ul>
+        <div id="empty-state">
+          <span class="empty-mark" aria-hidden="true">✓</span>
+          <p>아직 비어 있는 한 페이지</p>
+          <p>첫 번째 할 일을 적어보세요.</p>
+        </div>
+      </section>
+
+      <footer>
+        <span class="save-dot" aria-hidden="true"></span>Copyright 2026. kenjo
+        All rights reserved.
+      </footer>
+    </main>
+  </body>
+</html>
