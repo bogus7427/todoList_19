@@ -6,6 +6,7 @@
     <title>하루 한 줄 — 할 일 목록</title>
     <link rel="stylesheet" href="./css/style.css" />
     <script src="./app.js" defer></script>
+    <script src="./weather.js" defer></script>
   </head>
   <body>
     <main class="notebook">
@@ -32,7 +33,23 @@
           </button>
         </div>
         <p class="subtitle">작은 할 일부터, 하나씩 가볍게.</p>
+        <div class="weather">
+          <a
+            class="weather-attribution"
+            href="https://open-meteo.com/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Weather data by Open-Meteo.com
+          </a>
+        </div>
       </header>
+      <section class="current-weather" aria-labelledby="current-weather-title">
+        <h2 id="current-weather-title">현재 날씨</h2>
+        <p id="weather-status" role="status" aria-live="polite">
+          현재 위치의 날씨를 불러오는 중이에요...
+        </p>
+      </section>
 
       <section aria-labelledby="list-title">
         <div class="section-heading">
