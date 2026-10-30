@@ -4,8 +4,66 @@ const todoList = document.querySelector("#todo-list");
 const todoCount = document.querySelector("#todo-count");
 const emptyState = document.querySelector("#empty-state");
 const message = document.querySelector("#message");
+const nameInput = document.querySelector("#name-input");
+const nameEditButton = document.querySelector("#name-edit-button");
+const titleOwner = document.querySelector("#title-owner");
 
 const STORAGE_KEY = "daily-note";
+const NAME_STORAGE_KEY = "daily-note-name";
+
+function loadName() {
+  try {
+    return localStorage.getItem(NAME_STORAGE_KEY) || "";
+  } catch (error) {
+    console.error("이름을 불러오지 못했습니다.", error);
+    message.textContent = "저장된 이름을 불러오지 못했어요.";
+    return "";
+  }
+}
+
+function updateName() {
+  const name = nameInput.value.trim();
+  titleOwner.textContent = name ? `${name}의` : "나의";
+
+  try {
+    if (name) {
+      localStorage.setItem(NAME_STORAGE_KEY, name);
+    } else {
+      localStorage.removeItem(NAME_STORAGE_KEY);
+    }
+    message.textContent = "";
+  } catch (error) {
+    console.error("이름을 저장하지 못했습니다.", error);
+    message.textContent =
+      "이름을 저장하지 못했어요. 브라우저 저장 공간을 확인해 주세요.";
+  }
+}
+
+nameInput.value = loadName();
+if (nameInput.value) {
+  titleOwner.textContent = `${nameInput.value}의`;
+  nameInput.hidden = true;
+  nameEditButton.hidden = false;
+} else {
+  titleOwner.textContent = "나의";
+}
+nameInput.addEventListener("input", updateName);
+nameInput.addEventListener("keydown", function (event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    updateName();
+    if (nameInput.value.trim()) {
+      nameInput.hidden = true;
+      nameEditButton.hidden = false;
+    }
+  }
+});
+nameEditButton.addEventListener("click", function () {
+  nameEditButton.hidden = true;
+  nameInput.hidden = false;
+  nameInput.focus();
+  nameInput.select();
+});
 
 function loadTodos() {
   try {
@@ -81,33 +139,45 @@ function renderTodos() {
     editButton.textContent = "수정";
     editButton.addEventListener("click", function () {
       const editInput = item.querySelector(".edit-input");
-      if (!editInput) {
-        const editor = document.createElement("input");
-        editor.type = "text";
-        editor.className = "edit-input";
-        editor.maxLength = 100;
-        editor.value = todo.text;
-        text.replaceWith(editor);
-        editButton.textContent = "저장";
-        editor.focus();
-        editor.addEventListener("keydown", function (event) {
-          if (event.key === "Enter") editButton.click();
-          if (event.key === "Escape") renderTodos();
-        });
+      if (editInput) {
+        renderTodos();
         return;
       }
 
-      const trimmedText = editInput.value.trim();
-      if (!trimmedText) {
-        message.textContent = "할 일은 빈칸으로 저장할 수 없어요.";
-        editInput.focus();
-        return;
+      const editor = document.createElement("input");
+      editor.type = "text";
+      editor.className = "edit-input";
+      editor.maxLength = 100;
+      editor.value = todo.text;
+      text.replaceWith(editor);
+      editButton.insertAdjacentElement("afterend", editor);
+
+      const saveButton = document.createElement("button");
+      saveButton.type = "button";
+      saveButton.className = "text-button";
+      saveButton.textContent = "저장";
+      saveButton.addEventListener("click", saveEdit);
+      deleteButton.before(saveButton);
+
+      function saveEdit() {
+        const trimmedText = editor.value.trim();
+        if (!trimmedText) {
+          message.textContent = "수정 할 내용을 입렵해주세요.";
+          editor.focus();
+          return;
+        }
+
+        todo.text = trimmedText;
+        message.textContent = "";
+        saveTodos();
+        renderTodos();
       }
 
-      todo.text = trimmedText;
-      message.textContent = "";
-      saveTodos();
-      renderTodos();
+      editor.focus();
+      editor.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") saveEdit();
+        if (event.key === "Escape") renderTodos();
+      });
     });
 
     const deleteButton = document.createElement("button");

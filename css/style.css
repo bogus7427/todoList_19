@@ -37,6 +37,13 @@ body {
   font-size: 11px;
   letter-spacing: 2px;
 }
+.title-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px 18px;
+}
 h1 {
   margin: 0;
   font-family: 'AppleMyungjo', 'Batang', serif;
@@ -45,6 +52,12 @@ h1 {
 }
 h1 span {
   color: #d68748;
+}
+.name-input {
+  flex: 0 1 210px;
+  width: 210px;
+  padding: 16px 14px;
+  font-size: 22px;
 }
 .subtitle {
   margin: 16px 0 42px;

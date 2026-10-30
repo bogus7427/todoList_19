@@ -10,7 +10,27 @@
   <body>
     <main class="notebook">
       <header>
-        <h1>나의 작은 기록<span>.</span></h1>
+        <div class="title-row">
+          <h1><span id="title-owner">나의</span> 작은 기록<span>.</span></h1>
+          <label class="sr-only" for="name-input">이름</label>
+          <input
+            id="name-input"
+            class="name-input"
+            type="text"
+            placeholder="이름"
+            maxlength="20"
+            autocomplete="name"
+          />
+          <button
+            id="name-edit-button"
+            class="text-button name-edit-button"
+            type="button"
+            aria-label="이름 수정"
+            hidden
+          >
+            수정
+          </button>
+        </div>
         <p class="subtitle">작은 할 일부터, 하나씩 가볍게.</p>
       </header>
 
