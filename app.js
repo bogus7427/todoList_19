@@ -4,12 +4,28 @@ const todoList = document.querySelector("#todo-list");
 const todoCount = document.querySelector("#todo-count");
 const emptyState = document.querySelector("#empty-state");
 const message = document.querySelector("#message");
+const listTitle = document.querySelector("#list-title");
+const todayButton = document.querySelector("#today-button");
+const yesterdayButton = document.querySelector("#yesterday-button");
 const nameInput = document.querySelector("#name-input");
 const nameEditButton = document.querySelector("#name-edit-button");
 const titleOwner = document.querySelector("#title-owner");
 
 const STORAGE_KEY = "daily-note";
 const NAME_STORAGE_KEY = "daily-note-name";
+
+function getDateKey(offset = 0) {
+  const date = new Date();
+  date.setDate(date.getDate() + offset);
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+const today = getDateKey();
+const yesterday = getDateKey(-1);
+let selectedDate = today;
 
 function loadName() {
   try {
@@ -84,7 +100,21 @@ function loadTodos() {
       throw new Error("저장된 할 일의 형식이 올바르지 않습니다.");
     }
 
-    return parsedTodos;
+    let migrated = false;
+    const todosWithDates = parsedTodos.map((todo) => {
+      if (typeof todo.date === "string" && /^\d{4}-\d{2}-\d{2}$/.test(todo.date)) {
+        return todo;
+      }
+
+      migrated = true;
+      return { ...todo, date: today };
+    });
+
+    if (migrated) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(todosWithDates));
+    }
+
+    return todosWithDates;
   } catch (error) {
     console.error("할 일을 불러오지 못했습니다.", error);
     message.textContent = "저장된 할 일을 불러오지 못했어요.";
@@ -93,6 +123,10 @@ function loadTodos() {
 }
 
 let todos = loadTodos();
+
+function getSelectedTodos() {
+  return todos.filter((todo) => todo.date === selectedDate);
+}
 
 function saveTodos() {
   try {
@@ -109,11 +143,25 @@ function saveTodos() {
 function renderTodos() {
   todoList.replaceChildren();
 
-  const remainingTodos = todos.filter((todo) => !todo.completed).length;
+  const selectedTodos = getSelectedTodos();
+  const remainingTodos = selectedTodos.filter((todo) => !todo.completed).length;
   todoCount.textContent = `${remainingTodos}개 남음`;
-  emptyState.hidden = todos.length > 0;
+  emptyState.hidden = selectedTodos.length > 0;
+  listTitle.textContent = selectedDate === today ? "오늘의 할 일" : "어제의 할 일";
+  todayButton.classList.toggle("active", selectedDate === today);
+  yesterdayButton.classList.toggle("active", selectedDate === yesterday);
+  todayButton.setAttribute("aria-pressed", String(selectedDate === today));
+  yesterdayButton.setAttribute("aria-pressed", String(selectedDate === yesterday));
 
-  todos.forEach(function (todo) {
+  const emptyMessages =
+    selectedDate === today
+      ? ["아직 비어 있는 한 페이지", "첫 번째 할 일을 적어보세요."]
+      : ["어제 기록한 할 일이 없어요.", "어제의 할 일을 추가하거나 확인할 수 있어요."];
+  emptyState.querySelectorAll("p").forEach((paragraph, index) => {
+    paragraph.textContent = emptyMessages[index];
+  });
+
+  selectedTodos.forEach(function (todo) {
     const item = document.createElement("li");
     item.className = "todo-item";
     if (todo.completed) item.classList.add("completed");
@@ -197,6 +245,16 @@ function renderTodos() {
   });
 }
 
+todayButton.addEventListener("click", function () {
+  selectedDate = today;
+  renderTodos();
+});
+
+yesterdayButton.addEventListener("click", function () {
+  selectedDate = yesterday;
+  renderTodos();
+});
+
 todoForm.addEventListener("submit", function (event) {
   event.preventDefault();
 
@@ -211,6 +269,7 @@ todoForm.addEventListener("submit", function (event) {
     id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
     text: text,
     completed: false,
+    date: selectedDate,
   });
 
   message.textContent = "";

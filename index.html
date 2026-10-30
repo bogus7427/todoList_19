@@ -54,7 +54,27 @@
       <section aria-labelledby="list-title">
         <div class="section-heading">
           <h2 id="list-title">오늘의 할 일</h2>
-          <span id="todo-count">0개 남음</span>
+          <div class="list-controls">
+            <div class="day-switch" role="group" aria-label="할 일 날짜 선택">
+              <button
+                id="today-button"
+                class="day-button active"
+                type="button"
+                aria-pressed="true"
+              >
+                오늘
+              </button>
+              <button
+                id="yesterday-button"
+                class="day-button"
+                type="button"
+                aria-pressed="false"
+              >
+                어제
+              </button>
+            </div>
+            <span id="todo-count">0개 남음</span>
+          </div>
         </div>
 
         <form id="todo-form">
